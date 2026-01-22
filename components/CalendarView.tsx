@@ -466,22 +466,24 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ schedule, onBack }) 
           </div>
           {weekDays.map((day, i) => {
             const isToday = isSameDay(day, new Date());
+            const isSelected = isSameDay(day, currentDate);
             const holiday = HOLIDAYS[format(day, 'yyyy-MM-dd')];
             return (
               <div key={i} 
-                   className={`flex flex-col items-center p-1 sm:p-2 rounded-lg transition-colors cursor-pointer active:bg-gray-100 ${isToday ? 'bg-blue-50' : ''}`}
+                   className={`flex flex-col items-center p-1 sm:p-2 rounded-lg transition-colors cursor-pointer active:scale-95 
+                     ${isSelected ? 'bg-apple-blue text-white shadow-sm' : isToday ? 'bg-blue-50' : 'hover:bg-gray-50'}`}
                    onClick={() => { setCurrentDate(day); setViewMode('day'); }}
               >
                 <div className="flex items-center gap-0.5">
-                    <span className={`text-[10px] sm:text-xs mb-0.5 ${isToday ? 'text-apple-blue font-bold' : 'text-gray-500'}`}>
+                    <span className={`text-[10px] sm:text-xs mb-0.5 ${isSelected ? 'text-white/90' : isToday ? 'text-apple-blue font-bold' : 'text-gray-500'}`}>
                       {DAYS_OF_WEEK[i]}
                     </span>
                 </div>
                 <div className="flex flex-col items-center">
-                    <span className={`text-xs sm:text-sm font-semibold ${isToday ? 'text-apple-blue' : 'text-gray-900'}`}>
+                    <span className={`text-xs sm:text-sm font-semibold ${isSelected ? 'text-white' : isToday ? 'text-apple-blue' : 'text-gray-900'}`}>
                       {format(day, 'd')}
                     </span>
-                    {holiday && <span className="text-[9px] leading-none text-red-500 font-medium scale-90">{holiday}</span>}
+                    {holiday && <span className={`text-[9px] leading-none font-medium scale-90 ${isSelected ? 'text-white/90' : 'text-red-500'}`}>{holiday}</span>}
                 </div>
               </div>
             );
